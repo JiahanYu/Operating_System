@@ -1,4 +1,4 @@
-# Operating-Systems
+# Operating System Assignments
 
 1. Kernel-Mode Multi-Process Programming 
 
