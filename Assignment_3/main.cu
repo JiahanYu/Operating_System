@@ -49,7 +49,7 @@ __device__ u32 paging(uchar *buffer, u32 frame_num, u32 offset) {
 		/* If frame_num(the logic page number want to query)
 		* is the same as logical page number in entry */
 		if ((pt[i] & 1) && pageNum == frame_num) { //page number shall not be zero
-												   // update hit time  	
+			// update hit time  	
 			u32 tmpTime = inTime++;
 			pt[i] = (tmpTime << 13) | (frame_num << 1) | 1;
 			return i * 32 + offset;
@@ -88,11 +88,11 @@ __device__ u32 paging(uchar *buffer, u32 frame_num, u32 offset) {
 	PAGEFAULT++;
 	u32 mask = (1 << 13) - 2;
 	u32 tarFrame = (pt[target] & mask) >> 1;	// logical page to be altered
-	u32 beginAddress = tarFrame * 32;			// target secondary memory where logical page want to swap in
+	u32 beginAddress = tarFrame * 32;		// target secondary memory where logical page want to swap in
 	for (int i = beginAddress, j = 0; j < 32; i++, j++) {
 		u32 sharedAddress = target * 32 + j;    // physical memory address where swapping taking place
 		u32 curAddress = frame_num * 32 + j;    // page that are going to swap in physical memory address
-		storage[i] = buffer[sharedAddress];				//swap out 
+		storage[i] = buffer[sharedAddress];		//swap out 
 		buffer[sharedAddress] = storage[curAddress];	//swap in 
 	}
 	int tmpTime = inTime++;
